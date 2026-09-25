@@ -38,7 +38,7 @@ const ENTITIES = { "&amp;": "&", "&lt;": "<", "&gt;": ">", "&quot;": "\"", "&#x2
 const plain = html => String(html ?? "").replace(/<[^>]+>/g, " ").replace(/&[#\w]+;/g, e => ENTITIES[e] ?? e).replace(/\s+/g, " ").trim();
 const clip = (s, n) => s.length <= n ? s : `${s.slice(0, s.lastIndexOf(" ", n))}…`;
 
-export async function prepareTabContext(actor, { editable = actor.isOwner } = {}) {
+export async function prepareTabContext(actor, { editable = actor.isOwner, tidy = false } = {}) {
   const view = stateFor(actor);
   const level = talentLevel(actor);
   const spec = specialization(actor);
@@ -133,6 +133,7 @@ export async function prepareTabContext(actor, { editable = actor.isOwner } = {}
 
   return {
     editable,
+    tidy,
     level,
     spec,
     specOptions: spec.fromItem ? null : Object.entries(SPECIALIZATIONS).map(([value, s]) => ({ value, label: s.label, selected: value === spec.key })),

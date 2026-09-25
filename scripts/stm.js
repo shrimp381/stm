@@ -116,7 +116,7 @@ function registerTidyTab(api) {
       enabled: context => isTalent(context.actor),
       getData: async context => ({
         ...context,
-        stm: await prepareTabContext(context.actor, { editable: context.editable ?? context.actor?.isOwner })
+        stm: await prepareTabContext(context.actor, { editable: context.editable ?? context.actor?.isOwner, tidy: true })
       }),
       onRender: params => {
         const actor = params.data?.actor ?? params.app?.actor ?? params.app?.document;

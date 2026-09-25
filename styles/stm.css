@@ -32,7 +32,12 @@
 
 /* ── Tab shell ─────────────────────────────── */
 .stm-root { display: flex; flex-direction: column; gap: 10px; padding: 10px; container-type: inline-size; }
-.stm-tidy-tab .stm-root { padding: 8px 4px; }
+/* Tidy 5e: the tab body must be its own scroll container.
+   New (Quadrone) sheet: the root carries Tidy's own .tab-content class (flex: 1 1 0; overflow: auto),
+   and these rules back it up. Classic sheet: the tab element scrolls. */
+.stm-tidy-tab.active { display: flex; flex-direction: column; min-height: 0; }
+.stm-tidy-tab.active > .stm-root { flex: 1 1 0; min-height: 0; overflow-y: auto; }
+.tidy5e-sheet:not(.quadrone) .stm-tidy-tab { overflow-y: auto; height: 100%; }
 .stm-root h3, .stm-root h4 { margin: 0; border: 0; }
 .stm-root button { font-family: inherit; }
 .stm-root button:focus-visible, .stm-dialog-app button:focus-visible { outline: 2px solid var(--stm-psi); outline-offset: 2px; }

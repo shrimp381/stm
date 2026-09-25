@@ -1,5 +1,5 @@
 {{!-- STM Psionics tab body. Shared by the dnd5e sheet and Tidy 5e Sheets. Expects `stm` in context. --}}
-<div class="stm-root">
+<div class="stm-root {{#if stm.tidy}}tab-content{{/if}}">
   {{#with stm}}
   {{#if specOptions}}
   <div class="stm-specpick">

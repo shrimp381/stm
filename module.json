@@ -2,7 +2,7 @@
   "id": "stm",
   "title": "STM",
   "description": "Strain tracking and psionics for the MCDM Talent class on D&D 5e. Adds a Psionics tab to the default character sheet and to Tidy 5e Sheets: body, mind and soul strain with automated effects, manifestation tests, increased order, Psionic Exertion, Strain to Maintain, Psychic Boost, Hit Dice recovery, and every specialization feature. Ships the Talent class, seven specializations and all 103 powers as compendiums.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "compatibility": {
     "minimum": "13",
     "verified": "13"
