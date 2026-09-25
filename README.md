@@ -1,6 +1,6 @@
 # STM
 
-Strain tracking and psionics for the **MCDM Talent** class on the D&D 5e system. STM adds a **Psionics** tab that tracks body, mind and soul strain, applies strain effects automatically, and runs the whole manifestation flow: order, manifestation test, Adept rerolls, Psionic Exertion, strain assignment, and the power's own attack, save or damage card.
+Strain tracking and psionics for the **Talent** class on the D&D 5e system. STM adds a **Psionics** tab that tracks body, mind and soul strain, applies strain effects automatically, and runs the whole manifestation flow: order, manifestation test, Adept rerolls, Psionic Exertion, strain assignment, and the power's own attack, save or damage card.
 
 - **Both sheets:** the tab appears on the default D&D 5e character sheet (no sheet switch needed) and on **Tidy 5e Sheets**. It only shows on characters with a Talent class.
 - **Works from anywhere:** using a power or feature from the sheet, Tidy, Argon Combat HUD or the hotbar goes through the same strain flow.
