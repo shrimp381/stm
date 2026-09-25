@@ -1,0 +1,89 @@
+{
+  "id": "stm",
+  "title": "STM",
+  "description": "Strain tracking and psionics for the MCDM Talent class on D&D 5e. Adds a Psionics tab to the default character sheet and to Tidy 5e Sheets: body, mind and soul strain with automated effects, manifestation tests, increased order, Psionic Exertion, Strain to Maintain, Psychic Boost, Hit Dice recovery, and every specialization feature. Ships the Talent class, seven specializations and all 103 powers as compendiums.",
+  "version": "0.1.0",
+  "compatibility": {
+    "minimum": "13",
+    "verified": "13"
+  },
+  "authors": [
+    {
+      "name": "Shrimp"
+    }
+  ],
+  "relationships": {
+    "systems": [
+      {
+        "id": "dnd5e",
+        "type": "system",
+        "compatibility": {
+          "minimum": "5.0.0",
+          "verified": "5.0.4"
+        }
+      }
+    ],
+    "recommends": [
+      {
+        "id": "tidy5e-sheet",
+        "type": "module",
+        "reason": "Adds the Psionics tab to Tidy 5e character sheets."
+      }
+    ]
+  },
+  "esmodules": [
+    "scripts/stm.js"
+  ],
+  "styles": [
+    "styles/stm.css"
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "packs": [
+    {
+      "name": "stm-talent",
+      "label": "STM: Talent Class & Features",
+      "path": "packs/stm-talent",
+      "type": "Item",
+      "system": "dnd5e",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
+    },
+    {
+      "name": "stm-powers",
+      "label": "STM: Psionic Powers",
+      "path": "packs/stm-powers",
+      "type": "Item",
+      "system": "dnd5e",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "flags": {}
+    }
+  ],
+  "packFolders": [
+    {
+      "name": "STM: Talent",
+      "sorting": "m",
+      "color": "#3b2a6b",
+      "packs": [
+        "stm-talent",
+        "stm-powers"
+      ]
+    }
+  ],
+  "url": "https://github.com/Shrimp381/stm",
+  "manifest": "https://raw.githubusercontent.com/Shrimp381/stm/main/module.json",
+  "download": "https://github.com/Shrimp381/stm/releases/latest/download/module.zip",
+  "readme": "https://github.com/Shrimp381/stm/blob/main/README.md",
+  "bugs": "https://github.com/Shrimp381/stm/issues"
+}

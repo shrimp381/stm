@@ -1,0 +1,205 @@
+{{!-- STM Psionics tab body. Shared by the dnd5e sheet and Tidy 5e Sheets. Expects `stm` in context. --}}
+<div class="stm-root">
+  {{#with stm}}
+  {{#if specOptions}}
+  <div class="stm-specpick">
+    <label for="stm-spec-{{level}}">{{localize "STM.Specialization"}}</label>
+    <select id="stm-spec-{{level}}" data-stm-change="spec" {{#unless editable}}disabled{{/unless}}>
+      <option value="">{{localize "STM.ChooseSpec"}}</option>
+      {{#each specOptions}}<option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}
+    </select>
+  </div>
+  {{/if}}
+
+  <div class="stm-grid">
+    <div class="stm-col">
+      {{!-- Strain --}}
+      <section class="stm-panel stm-strain">
+        <header class="stm-head">
+          <h3>{{localize "STM.Strain"}}</h3>
+          <div class="stm-big">{{total}}<small> / {{max}}</small></div>
+          <span class="stm-pill {{state.cls}}">{{state.label}}</span>
+          {{#if editable}}
+          <div class="stm-head-btns">
+            <button type="button" class="stm-btn psi" data-stm-action="gain">{{localize "STM.GainStrain"}}</button>
+            <button type="button" class="stm-btn" data-stm-action="remove" {{#unless total}}disabled{{/unless}}>{{localize "STM.Remove"}}</button>
+          </div>
+          {{/if}}
+        </header>
+        <div class="stm-bar" aria-hidden="true">{{#each bar}}<i class="{{key}}" style="width:{{width}}"></i>{{/each}}</div>
+
+        <div class="stm-tracks">
+          {{#each tracks}}
+          <div class="stm-track {{#if ignored}}ignored{{/if}}" data-type="{{key}}">
+            <h4>{{label}}<b>{{value}}</b></h4>
+            {{#if ignored}}<span class="stm-ign">{{localize "STM.IgnoredUntilRest"}}</span>{{/if}}
+            <div class="stm-pips">
+              {{#each pips}}
+              <button type="button" class="stm-pip {{#if on}}on{{/if}} {{#if odd}}odd{{/if}}" data-stm-action="pip" data-type="{{../key}}" data-n="{{n}}"
+                aria-label="{{../label}} {{n}}" {{#unless @root.stm.editable}}disabled{{/unless}}></button>
+              {{/each}}
+            </div>
+            <ul class="stm-fx">
+              {{#each effects}}<li class="{{#if on}}on{{/if}}"><span>{{step}}</span><span>{{text}}</span></li>{{/each}}
+            </ul>
+          </div>
+          {{/each}}
+        </div>
+
+        {{#if level20}}
+        <div class="stm-ignore-row">
+          <span>{{localize "STM.IgnoreStrain"}}: <b>{{#if ignore}}{{ignoreLabel}}{{else}}{{localize "STM.NotChosen"}}{{/if}}</b></span>
+          {{#if editable}}<button type="button" class="stm-btn sm" data-stm-action="ignore">{{localize "STM.Choose"}}</button>{{/if}}
+        </div>
+        {{/if}}
+
+        <div class="stm-stats">
+          {{#each stats}}<div class="stm-stat"><span>{{label}}</span><b>{{value}}</b></div>{{/each}}
+        </div>
+
+        {{#if editable}}
+        <div class="stm-actions">
+          {{#if boost}}
+          <span data-item-id="{{boost.id}}"><button type="button" class="stm-btn" data-stm-action="boost" {{#if boost.disabled}}disabled{{/if}}>
+            {{localize "STM.PsychicBoost"}}{{#if boost.uses}} <small>{{boost.uses.value}}/{{boost.uses.max}}</small>{{/if}}</button></span>
+          {{/if}}
+          <button type="button" class="stm-btn" data-stm-action="maintain" data-tooltip="{{localize 'STM.MaintainHint'}}">{{localize "STM.FailedConcSave"}}</button>
+          <button type="button" class="stm-btn" data-stm-action="spendHd" {{#unless total}}disabled{{/unless}} data-tooltip="{{localize 'STM.SpendHdHint'}}">
+            {{localize "STM.SpendHitDice"}} <small>{{hitDice}}</small></button>
+          <button type="button" class="stm-btn" data-stm-action="learnOthers">{{localize "STM.LearnFromOthers"}}</button>
+        </div>
+        {{/if}}
+      </section>
+
+      {{!-- Features --}}
+      <section class="stm-panel">
+        <header class="stm-head"><h3>{{localize "STM.Features"}}</h3>{{#if spec.label}}<span class="stm-sub">{{spec.label}}</span>{{/if}}</header>
+        {{#if features.length}}
+        <ul class="stm-features">
+          {{#each features}}
+          <li class="stm-feature" data-item-id="{{id}}">
+            <img src="{{img}}" alt="">
+            <div class="stm-feature-main">
+              <div class="stm-feature-head">
+                <span class="stm-lv">{{level}}</span><b>{{name}}</b>
+                {{#if uses}}<span class="stm-uses">{{uses.value}}/{{uses.max}}</span>{{/if}}
+              </div>
+              <p>{{text}}</p>
+              {{#if @root.stm.editable}}{{#if activities.length}}
+              <div class="stm-feature-btns">
+                {{#each activities}}
+                <button type="button" class="stm-btn sm {{#if strain}}strain{{/if}}" data-stm-action="feature" data-activity-id="{{id}}" {{#if ../empty}}disabled{{/if}}>
+                  {{name}}{{#if strain}} <i class="fa-solid fa-brain" inert></i>{{/if}}</button>
+                {{/each}}
+              </div>
+              {{/if}}{{/if}}
+            </div>
+          </li>
+          {{/each}}
+        </ul>
+        {{else}}
+        <p class="stm-empty">{{localize "STM.NoFeatures"}}</p>
+        {{/if}}
+      </section>
+
+      {{!-- Exertion --}}
+      <section class="stm-panel">
+        <header class="stm-head"><h3>{{localize "STM.Exertion"}}</h3><span class="stm-sub">{{exertion.count}} / {{exertion.allowed}}</span></header>
+        {{#if exertion.owned.length}}
+        <ul class="stm-exertions">
+          {{#each exertion.owned}}
+          <li><img src="{{img}}" alt=""><div><b>{{name}}</b> <span class="stm-cost">{{cost}}</span><p>{{text}}</p></div></li>
+          {{/each}}
+        </ul>
+        {{else}}
+        <p class="stm-empty">{{#if exertion.allowed}}{{localize "STM.NoExertions"}}{{else}}{{localize "STM.ExertionLocked"}}{{/if}}</p>
+        {{/if}}
+        {{#if editable}}{{#if exertion.addable.length}}
+        <div class="stm-add">
+          <select data-stm-exertion aria-label="{{localize 'STM.Exertion'}}">
+            {{#each exertion.addable}}<option value="{{uuid}}">{{name}}</option>{{/each}}
+          </select>
+          <button type="button" class="stm-btn" data-stm-action="addExertion">{{localize "STM.AddOption"}}</button>
+        </div>
+        {{/if}}{{/if}}
+      </section>
+    </div>
+
+    <div class="stm-col">
+      {{!-- Concentration --}}
+      <section class="stm-panel">
+        <header class="stm-head"><h3>{{localize "STM.Concentrating"}}</h3></header>
+        <div class="stm-conc">
+          {{#each conc}}
+          <span class="stm-cchip">{{name}} · {{order}}
+            {{#if @root.stm.editable}}<button type="button" data-stm-action="endConc" data-effect-id="{{id}}" aria-label="{{localize 'STM.End'}} {{name}}">×</button>{{/if}}</span>
+          {{/each}}
+          {{#each slots}}<span class="stm-cslot" aria-hidden="true"></span>{{/each}}
+          <span class="stm-hint">{{#if conc.length}}{{localize "STM.ScoreBonus"}} +{{concScore}}{{else}}{{localize "STM.NotConcentrating"}}{{/if}}</span>
+        </div>
+      </section>
+
+      {{!-- Powers --}}
+      <section class="stm-panel">
+        <header class="stm-head"><h3>{{localize "STM.Powers"}}</h3></header>
+        <div class="stm-counts">
+          <span class="{{#if counts.first.over}}over{{/if}}">{{localize "STM.FirstOrderKnown"}} <b>{{counts.first.n}}/{{counts.first.max}}</b></span>
+          <span class="{{#if counts.higher.over}}over{{/if}}">{{localize "STM.HigherKnown"}} <b>{{counts.higher.n}}/{{counts.higher.max}}</b></span>
+          <span>{{localize "STM.CanLearnUpTo"}} <b>{{counts.maxOrder}}</b></span>
+        </div>
+        <div class="stm-filters">
+          {{#each filters}}<button type="button" class="stm-chip {{#if active}}active{{/if}}" data-stm-action="filter" data-filter="{{id}}" aria-pressed="{{active}}">{{label}}</button>{{/each}}
+        </div>
+
+        {{#each powers}}
+        <div class="stm-ogroup">
+          <h4>{{label}} <em>{{note}}</em></h4>
+          <ul class="stm-powers">
+            {{#each items}}
+            <li class="stm-power {{#if active}}active{{/if}}" data-item-id="{{id}}">
+              <div class="stm-power-row">
+                <span class="stm-ob {{#if o1}}o1{{/if}}">{{order}}</span>
+                <button type="button" class="stm-power-name" data-stm-action="toggle" aria-expanded="{{open}}">
+                  <b>{{name}}</b>{{#if concentration}}<span class="stm-tag c">C</span>{{/if}}{{#if adept}}<span class="stm-tag adept">{{localize "STM.Adept"}}</span>{{/if}}
+                  <span class="stm-meta">{{specialty}} · {{time}} · {{range}}</span>
+                </button>
+                {{#if @root.stm.editable}}
+                <button type="button" class="stm-btn sm {{#unless active}}psi{{/unless}}" data-stm-action="manifest" {{#if aboveMax}}disabled data-tooltip="{{localize 'STM.AboveMax'}}"{{/if}}>
+                  {{#if active}}{{localize "STM.Active"}}{{else}}{{localize "STM.Manifest"}}{{/if}}</button>
+                {{/if}}
+              </div>
+              {{#if open}}
+              <div class="stm-power-body">
+                <p class="stm-facts">{{localize "STM.Duration"}} <b>{{duration}}</b>{{#if increased}} · <b>{{localize "STM.IncreasedOrder"}}</b>{{/if}}</p>
+                <div class="stm-desc">{{{text}}}</div>
+                {{#if @root.stm.editable}}<button type="button" class="stm-btn sm danger" data-stm-action="forget">{{localize "STM.ForgetPower"}}</button>{{/if}}
+              </div>
+              {{/if}}
+            </li>
+            {{/each}}
+          </ul>
+        </div>
+        {{else}}
+        <p class="stm-empty">{{#if noPowers}}{{localize "STM.NoPowers"}}{{else}}{{localize "STM.NoMatch"}}{{/if}}</p>
+        {{/each}}
+
+        {{#if editable}}{{#if learnable.length}}
+        <div class="stm-add">
+          <select data-stm-learn aria-label="{{localize 'STM.LearnPower'}}">
+            {{#each learnable}}<optgroup label="{{label}}">{{#each options}}<option value="{{uuid}}">{{label}}</option>{{/each}}</optgroup>{{/each}}
+          </select>
+          <button type="button" class="stm-btn" data-stm-action="learn">{{localize "STM.LearnPower"}}</button>
+        </div>
+        {{/if}}{{/if}}
+      </section>
+    </div>
+  </div>
+
+  {{#if editable}}
+  <footer class="stm-foot">
+    <button type="button" class="stm-link" data-stm-action="sync">{{localize "STM.SyncFeatures"}}</button>
+    <button type="button" class="stm-link" data-stm-action="resync">{{localize "STM.Resync"}}</button>
+  </footer>
+  {{/if}}
+  {{/with}}
+</div>
